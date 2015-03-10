@@ -7,6 +7,9 @@ from cms.plugin_pool import plugin_pool
 from aldryn_news import models
 from aldryn_news.forms import MultipleTagForm, LinksForm
 
+from django.conf import settings
+
+
 
 class NewsPluginBase(CMSPluginBase):
 
@@ -71,6 +74,19 @@ class NewsLinksPlugin(NewsPluginBase):
     model = models.NewsLinksPlugin
     form = LinksForm
     filter_horizontal = ['news']
+
+    def render(self, context, instance, placeholder):
+        context['instance'] = instance
+        return context
+
+
+@plugin_pool.register_plugin
+class NewsTextLinkPlugin(NewsPluginBase):
+
+    render_template = 'aldryn_news/plugins/news_link.html'
+    name = _("News link")
+    model = models.NewsTextLinkPlugin
+    text_enabled = True
 
     def render(self, context, instance, placeholder):
         context['instance'] = instance

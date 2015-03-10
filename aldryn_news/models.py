@@ -234,3 +234,11 @@ class NewsLinksPlugin(CMSPlugin):
 
     def get_news(self):
         return self.news.all()
+
+
+class NewsTextLinkPlugin(CMSPlugin):
+    name = models.CharField(_("name"), max_length=256)
+    news = models.ForeignKey(News, verbose_name=_("News"))
+
+    def __str__(self):
+        return self.name
